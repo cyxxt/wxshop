@@ -21,9 +21,19 @@ Route::get('shopcart','IndexController@shopcart')->middleware('log');
 //详情页
 Route::get('shopcontent','IndexController@shopcontent');
 //详情
-Route::post('allshopsdo','IndexController@allshopsdo');
+Route::any('allshopsdo','IndexController@allshopsdo');
 //添加至购物车
 route::post('cart','IndexController@cart');
+//搜索
+route::post('search','IndexController@search');
+//删除
+route::post('del','IndexController@del');
+//加
+route::post('jia','IndexController@jia');
+//删除全部
+route::post('delall','IndexController@delall');
+route::get('payment','IndexController@payment');
+route::post('paymentdo','IndexController@paymentdo');
 
 //验证码
 Route::any('verify/create','CodeController@create');

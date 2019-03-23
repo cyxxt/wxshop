@@ -1,4 +1,5 @@
-﻿@extends('must')
+﻿<div>
+@extends('must')
 
 <link rel="stylesheet" href="css/mui.min_1.css">
 <link href="css/comm.css" rel="stylesheet" type="text/css" />
@@ -22,7 +23,7 @@
                         <div class="border-inner"></div>
                     </div>
                     <div class="input-box">
-                        <i class="s-icon"></i>
+                        <i class="s-icon" id="search"></i>
                         <input type="text" placeholder="输入“汽车”试试" id="txtSearch" />
                         <i class="c-icon" id="btnClearInput" style="display: none"></i>
                     </div>
@@ -55,10 +56,10 @@
 
                 <div class="menu-list-wrapper" id="divSortList">
                     <ul id="sortListUl" class="list">
-                        <li sortid='0' class='current'><span class='items'>全部商品</span></li>
+                        <li sortid='0' class='current'><span class='items' >全部商品</span></li>
                         @foreach($topInfo as $v)
                         <li sortid='100' reletype='1' linkaddr='' >
-                            <a href="javascript:;" class="dd"><span class='items' id="{{$v->cate_id}}">{{$v->cate_name}}</span></a>
+                            <span class='items' id="{{$v->cate_id}}">{{$v->cate_name}}</span>
                         </li>
                         @endforeach
                     </ul>
@@ -269,13 +270,16 @@
         {{--console.log(_this);--}}
         var cate_id=_this.attr('id');
         {{--console.log(cate_id);--}}
+
         $.post(
             'allshopsdo',
             {cate_id:cate_id,_token:$("[name='_token']").val()},
             function(res){
                 {{--console.log(res);--}}
-                $('.good-list-inner').empty();
-                $('.good-list-inner').html(res);
+                $('#all').empty();
+                $('#all').html(res);
+    _this.parent('li').addClass('current');
+    _this.parent('li').siblings('li').removeClass('current');
             }
         )
         });
@@ -289,36 +293,13 @@
             var _this=$(this);
             var type=_this.attr('type');
             console.log(type);
-            var ziduan='';
-            var _order='';
-            if(type=1){
-                var ziduan='goods_num';
-                var _order='desc';
-            }
-            if(type==2){
-                var ziduan='create_time';
-                var _order='asc';
-            }
-            if(type==3){
-                var sex=_this.find("span").text();
-//                console.log(sex);
-                 var ziduan='self_price';
-                if(sex=='↑'){
-                     var _order='asc';
-                    _this.find("span").text('↓');
-                }else{
-                    var _order='desc';
-                    _this.find("span").text('↑');
-                }
-            }
-            console.log(type);
-            console.log(ziduan);
+
             $.post(
                     "allshopsdo",
-                    {ziduan:ziduan,order:_order,type:type,_token:$("[name='_token']").val()},
+                    {type:type,_token:$("[name='_token']").val()},
                     function(res){
-                        $('.good-list-inner').empty();
-                        $('.good-list-inner').html(res);
+                        $('#all').empty();
+                        $('#all').html(res);
                     }
             )
         })
@@ -340,7 +321,20 @@
                     }
             )
         })
+
+        //点击搜索
+        $("#search").click(function(){
+            var search=$("#txtSearch").val();
+            $.post(
+                    "search",
+                    {search:search,_token:$("[name='_token']").val()},
+                    function(res){
+                        $('#all').empty();
+                        $('#all').html(res);
+                    }
+            )
+        })
     })
 </script>
-
+</div>
 

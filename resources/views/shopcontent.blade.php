@@ -1,8 +1,7 @@
 @extends('must')
-<link href="css/comm.css" rel="stylesheet" type="text/css" />
-<link href="css/goods.css" rel="stylesheet" type="text/css" />
-<link href="css/fsgallery.css" rel="stylesheet" charset="utf-8">
-<link rel="stylesheet" href="css/swiper.min.css">
+<link href="{{url('css/goods.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{url('css/fsgallery.css')}}" rel="stylesheet" charset="utf-8">
+<link rel="stylesheet" href="{{url('css/swiper.min.css')}}">
 <style>
     .Countdown-con {padding: 4px 15px 0px;}
 </style>
@@ -219,10 +218,9 @@
     @endsection
 
 
-<script src="js/jquery-1.11.2.min.js"></script>
-<script src="http://cdn.bootcss.com/flexslider/2.6.2/jquery.flexslider.min.js"></script>
-<script src="js/swiper.min.js"></script>
-<script src="js/photo.js" charset="utf-8"></script>
+<script src="{{url('js/jquery-1.11.2.min.js')}}"></script>
+<script src="{{url('js/swiper.min.js')}}"></script>
+<script src="{{url('js/photo.js')}}" charset="utf-8"></script>
 <script>
     $(function () {  
         $('.hotimg').flexslider({   
@@ -289,5 +287,3 @@
         })
     }) 
 </script>
-</body>
-</html>

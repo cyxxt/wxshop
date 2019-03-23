@@ -35,37 +35,36 @@ class IndexController extends Controller
 //ajax
     public function allshopsdo(Request $request)
     {
-        $cate_id=$request->cate_id;
-        $order=$request->order;
-        $ziduan=$request->ziduan;
-        echo $ziduan;
+        $cate_id=$request->input('cate_id');
+//        echo $cate_id;die;
+        $topInfo=Category::where('pid',0)->get();
+        $type=$request->type;
 //        echo $cate_id;
         if(empty($cate_id)){
             if(empty($type)){
                 $goodsInfo=Goods::get();
             }else{
-                $goodsInfo=Goods::orderBy($ziduan,$order)
-                    -> take(10)->get();
+
+                if($type==1){
+                    $goodsInfo=Goods::orderBy('goods_num','desc')
+                        -> take(10)->get();
+                }
+                if($type==2){
+                    $goodsInfo=Goods::orderBy('create_time','asc')
+                        -> take(10)->get();
+                }
+                if($type==3){
+                    $goodsInfo=Goods::orderBy('self_price',$type)
+                        -> take(10)->get();
+                }
+            }
+        }else{
+            if(empty($type)){
+                $goodsInfo=$this->getcate1($cate_id);
             }
 
-
-//        echo $type;
-//            if($type==1){
-//                $goodsInfo=Goods::orderBy('goods_num','desc')
-//                    -> take(10)->get();
-//            }
-//            if($type==2){
-//                $goodsInfo=Goods::orderBy('create_time','asc')
-//                    -> take(10)->get();
-//            }
-//            if($type==3){
-//                $goodsInfo=Goods::orderBy('self_price',$type)
-//                    -> take(10)->get();
-//            }
-        }else{
-            $goodsInfo=$this->getcate1($cate_id);
         }
-        return view('div',['goodsInfo'=>$goodsInfo]);
+        return view('div',['goodsInfo'=>$goodsInfo,'topInfo'=>$topInfo]);
     }
 //根据id获取商品数据
     public function getcate1($cate_id)
@@ -89,9 +88,10 @@ class IndexController extends Controller
     {
         $user_id=session('user_id');
         $where=[
-            'user_id'=>$user_id
+            'user_id'=>$user_id,
+            'cart_status'=>1
         ];
-        $goodsInfo=Cart::join('goods','goods.goods_id','=','cart.goods_id')->where($where)->get();
+        $goodsInfo=Cart::join('goods','goods.goods_id','=','cart.goods_id')->orderBy('cart.create_time','desc')->where($where)->get();
 //        print_r($goodsInfo);die;
         $goodsInfo1=Goods::orderBy('goods_num','desc')->take(4)->get();
         return view('shopcart',['goodsInfo'=>$goodsInfo,'goodsInfo1'=>$goodsInfo1]);
@@ -135,7 +135,8 @@ class IndexController extends Controller
                 $data=[
                     'goods_id'=>$goods_id,
                     'user_id'=>$user_id,
-                    'buy_number'=>1
+                    'buy_number'=>1,
+                    'create_time'=>time()
                 ];
                 $res1=Cart::insert($data);
 
@@ -143,12 +144,15 @@ class IndexController extends Controller
                 $where=[
                     'goods_id'=>$goods_id,
                     'user_id'=>$user_id,
+
                 ];
                 $res=Cart::where($where)->first();
                 $buy_num='';
                 $buy_num.=$res['buy_number']+1;
                 $data=[
-                    'buy_number'=>$buy_num
+                    'buy_number'=>$buy_num,
+                    'cart_status'=>1,
+                    'create_time'=>time()
                 ];
                 $res1=Cart::where('goods_id',$goods_id)->update($data);
             }
@@ -158,5 +162,99 @@ class IndexController extends Controller
                 echo 2;
             }
         }
+    }
+
+    //搜索
+    public function search(Request $request)
+    {
+        $search=$request->search;
+//        echo $search;
+        if(empty($search)){
+            $goodsInfo=Goods::get();
+        }else{
+            $goodsInfo=Goods::where('goods_name','like',"%$search%")->get();
+        }
+        return view('div',['goodsInfo'=>$goodsInfo]);
+    }
+
+    //删除购物车里的商品
+    public function del(Request $request)
+    {
+        $goods_id=$request->goods_id;
+//        echo $goods_id;die;
+        $user_id=session('user_id');
+        $where=[
+            'goods_id'=>$goods_id,
+            'user_id'=>$user_id
+        ];
+        Cart::where($where)->update(['cart_status'=>2,'buy_number'=>0,'create_time'=>0]);
+    }
+
+    //加
+    public function jia(Request $request)
+    {
+        $price=$request->price;
+//        echo $price;
+        $goods_id=$request->goods_id;
+//        echo $goods_id;
+        $user_id=session('user_id');
+        $where=[
+            'goods_id'=>$goods_id,
+            'user_id'=>$user_id
+        ];
+        $data=[
+            'buy_number'=>$price
+        ];
+        Cart::where($where)->update($data);
+    }
+
+    //删除全部
+    public function delall(Request $request)
+    {
+        $type=$request->type;
+        if($type==2){
+            $goods_id=$request->goods_id;
+//        echo $goods_id;die;
+            $user_id=session('user_id');
+            $goods_id=explode(',',$goods_id);
+//        print_r($goods_id);
+            $res=Cart::where('user_id',$user_id)->whereIn('goods_id',$goods_id)->update(['cart_status'=>2]);
+            if($res){
+                echo 1;
+            }
+        }else{
+            $goods_id=$request->goods_id;
+            echo $goods_id;
+        }
+
+
+    }
+
+    //支付
+    public function payment()
+    {
+        $goods_id=session('goods_id');
+//        echo $goods_id;die;
+        $goods_id=explode(',',$goods_id);
+//        print_r($goods_id);die;
+//        $where=[
+//            'cart.goods_id'=>['in',$goods_id]
+//        ];
+//        print_r($where);die;
+        $goodsInfo=Cart::join('goods','goods.goods_id','=','cart.goods_id')->whereIn('cart.goods_id',$goods_id)->get();
+//        print_r($goodsInfo);die;
+        $price=0;
+        foreach($goodsInfo as $v){
+            $price+=$v['buy_number']*$v['self_price'];
+        }
+
+        return view('payment',['goodsInfo'=>$goodsInfo,'price'=>$price]);
+    }
+
+    public function paymentdo(Request $request)
+    {
+        $goods_id=$request->goods_id;
+        session(['goods_id'=>$goods_id]);
+//        echo $goods_id;
     }
 }
