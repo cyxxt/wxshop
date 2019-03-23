@@ -2,7 +2,6 @@
 @section('title', 'shop')
 @section('content')
 	@csrf
-	啊哈哈哈哈哈哈哈哈哈哈哈哈
 	<body fnav="1" class="g-acc-bg">
 	<div class="marginB" id="loadingPicBlock">
 		<!--首页头部-->
