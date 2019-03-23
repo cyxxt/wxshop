@@ -1,5 +1,5 @@
 ﻿@extends('must')
-@section('title', '大超市')
+@section('title', 'shop')
 @section('content')
 	@csrf
 	啊哈哈哈哈哈哈哈哈哈哈哈哈
