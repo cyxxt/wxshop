@@ -16,20 +16,55 @@ class LoginController extends Controller
     {
         return view('register');
     }
+    public function registers()
+    {
+        return view('registers');
+    }
+
+    //
+    public function regauth(Request $request)
+    {
+        $tel=session('tel');
+        $a=substr($tel,0,3);
+        $b=substr($tel,7,11);
+        $tel=$a.'****'.$b;
+//        echo $b;
+//        echo $tel;
+        return view('regauth',['tel'=>$tel]);
+    }
+    //设置密码
+    public function setpwd(Request $request)
+    {
+        return view('setpwd');
+    }
+    public function regauthdo(Request $request)
+    {
+        $tel=$request->tel;
+
+        if(!empty($tel)){
+            echo 1;
+            session(['tel'=>$tel]);
+        }else{
+            die;
+        }
+//        echo $tel;die;
+
+    }
     //注册执行
     public function registerdo(Request $request)
     {
 //        $validate = $request->validated();
 //        dd($validate->error());
-        $tel=$request->tel;
-
+//        $tel=$request->tel;
+            $tel=session('tel');
+//        echo $tel;die;
         $pwd=$request->pwd;
-//        echo $pwd;
+//        echo $pwd;die;
         $pwds=$request->pwds;
 //        echo $pwd;
         $pwd=encrypt($pwd);
         $code=$request->code;
-//        echo $code;
+//        echo $code;die;
         $code1=session('mobilecode');
         $data=[
             'user_tel'=>$tel,
@@ -52,11 +87,11 @@ class LoginController extends Controller
 
     public function codedo(Request $request)
     {
-        $tel=$request->tel;
-//        echo $tel;
+        $tel=session('tel');
+//        echo $tel;die;
         $res=$this->sendMobile($tel);
         if($res){
-            echo "发送成功";
+            echo 1;
         }else{
             echo "发送失败";
         }

@@ -1,9 +1,9 @@
-﻿<div id="_div">
+<div id="_div">
 @extends('must')
 
-<link rel="stylesheet" href="{{url('css/mui.min_1.css')}}">
-<link href="{{url('css/comm.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{url('css/goods.css')}}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="css/mui.min_1.css">
+<link href="css/comm.css" rel="stylesheet" type="text/css" />
+<link href="css/goods.css" rel="stylesheet" type="text/css" />
 @section('content')
     @csrf
     <body class="g-acc-bg" fnav="0" style="position: static">
@@ -58,9 +58,9 @@
                     <ul id="sortListUl" class="list">
                         <li sortid='0' class='current'><span class='items' >全部商品</span></li>
                         @foreach($topInfo as $v)
-                        <li sortid='100' reletype='1' linkaddr='' >
-                            <span class='items' id="{{$v->cate_id}}">{{$v->cate_name}}</span>
-                        </li>
+                            <li sortid='100' reletype='1' linkaddr='' >
+                                <span class='items' id="{{$v->cate_id}}">{{$v->cate_name}}</span>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
@@ -84,30 +84,30 @@
                                 <ul id="ulGoodsList" class="mui-table-view mui-table-view-chevron">
 
                                     @foreach($goodsInfo as $k=>$v)
-                                    <li id="23468">
+                                        <li id="23468">
                                     <span class="gList_l fl">
                                         <a href="{{url('shopcontent')}}?goods_id={{$v->goods_id}}"><img class="lazy" data-original="/goodsimg/{{$v->goods_img}}"></a>
                                     </span>
-                                        <div class="gList_r">
-                                            <h3 class="gray6">{{$v->goods_name}}</h3>
-                                            <em class="gray9">价值：￥{{$v->self_price}}</em>
-                                            <div class="gRate">
-                                                <div class="Progress-bar">
-                                                    <p class="u-progress">
+                                            <div class="gList_r">
+                                                <h3 class="gray6">{{$v->goods_name}}</h3>
+                                                <em class="gray9">价值：￥{{$v->self_price}}</em>
+                                                <div class="gRate">
+                                                    <div class="Progress-bar">
+                                                        <p class="u-progress">
                                                     <span style="width: 91.91286930395593%;" class="pgbar">
                                                         <span class="pging"></span>
                                                     </span>
-                                                    </p>
-                                                    <ul class="Pro-bar-li">
-                                                        <li class="P-bar01"><em>7342</em>已参与</li>
-                                                        <li class="P-bar02"><em>7988</em>总需人次</li>
-                                                        <li class="P-bar03"><em>646</em>剩余</li>
-                                                    </ul>
+                                                        </p>
+                                                        <ul class="Pro-bar-li">
+                                                            <li class="P-bar01"><em>7342</em>已参与</li>
+                                                            <li class="P-bar02"><em>7988</em>总需人次</li>
+                                                            <li class="P-bar03"><em>646</em>剩余</li>
+                                                        </ul>
+                                                    </div>
+                                                    <a codeid="12785750" goods_id="{{$v->goods_id}}"   class="cart" canbuy="646"><s></s></a>
                                                 </div>
-                                                <a codeid="12785750" goods_id="{{$v->goods_id}}"   class="cart" canbuy="646"><s></s></a>
                                             </div>
-                                        </div>
-                                    </li>
+                                        </li>
                                     @endforeach
 
                                 </ul>
@@ -132,11 +132,11 @@
         </div>
     </div>
     </body>
-    @endsection
+@endsection
 
-<script src="{{url('js/jquery-1.11.2.min.js')}}"></script>
-<script src="{{url('js/lazyload.min.js')}}"></script>
-<script src="{{url('js/mui.min.js')}}"></script>
+<script src="js/jquery-1.11.2.min.js"></script>
+<script src="js/lazyload.min.js"></script>
+<script src="js/mui.min.js"></script>
 <script>
 
     jQuery(document).ready(function() {
@@ -265,28 +265,28 @@
 </script>
 @section('my-js')
     $(function(){
-        $(document).on('click','.items',function(){
-        var _this=$(this);
-        {{--console.log(_this);--}}
-        var cate_id=_this.attr('id');
-        {{--console.log(cate_id);--}}
+    $(document).on('click','.items',function(){
+    var _this=$(this);
+    {{--console.log(_this);--}}
+    var cate_id=_this.attr('id');
+    {{--console.log(cate_id);--}}
 
-        $.post(
-            'allshopsdo',
-            {cate_id:cate_id,_token:$("[name='_token']").val()},
-            function(res){
-                {{--console.log(res);--}}
-                $('.good-list-inner').empty();
-                $('.good-list-inner').html(res);
+    $.post(
+    'allshopsdo',
+    {cate_id:cate_id,_token:$("[name='_token']").val()},
+    function(res){
+    {{--console.log(res);--}}
+    $('.good-list-inner').empty();
+    $('.good-list-inner').html(res);
     _this.parent('li').addClass('current');
     _this.parent('li').siblings('li').removeClass('current');
-            }
-        )
-        });
+    }
+    )
+    });
 
 
     });
-    @endsection
+@endsection
 <script>
     $(function(){
         $(document).on('click','.di',function(){
@@ -336,5 +336,6 @@
         })
     })
 </script>
+
 
 </div>

@@ -66,6 +66,39 @@ class IndexController extends Controller
         }
         return view('div',['goodsInfo'=>$goodsInfo,'topInfo'=>$topInfo]);
     }
+    public function allshopsdoo(Request $request)
+    {
+        $cate_id=$request->input('cate_id');
+//        echo $cate_id;die;
+        $topInfo=Category::where('pid',0)->get();
+        $type=$request->type;
+//        echo $cate_id;
+        if(empty($cate_id)){
+            if(empty($type)){
+                $goodsInfo=Goods::get();
+            }else{
+
+                if($type==1){
+                    $goodsInfo=Goods::orderBy('goods_num','desc')
+                        -> take(10)->get();
+                }
+                if($type==2){
+                    $goodsInfo=Goods::orderBy('create_time','asc')
+                        -> take(10)->get();
+                }
+                if($type==3){
+                    $goodsInfo=Goods::orderBy('self_price',$type)
+                        -> take(10)->get();
+                }
+            }
+        }else{
+            if(empty($type)){
+                $goodsInfo=$this->getcate1($cate_id);
+            }
+
+        }
+        return view('div1',['goodsInfo'=>$goodsInfo,'topInfo'=>$topInfo]);
+    }
 //根据id获取商品数据
     public function getcate1($cate_id)
     {

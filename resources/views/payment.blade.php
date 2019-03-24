@@ -35,7 +35,7 @@
             </div>
             <p class="gray9">总需支付金额：<em class="orange"><i>￥</i>{{$price}}</em></p>
         </div>
-
+        <a href="{{url('address/addre')}}"><b style="font-size:50px;color:red" >请选择您的收货地址</b></a>
         <div class="other_pay marginB">
             
             <a href="javascript:;" class="method chaomoney">
@@ -109,8 +109,8 @@
 			total +=parseInt($('.g-pay-lst li').eq(i).find('dd em.price').text());
 
 		}
-		$('.gray9 .orange').html('<i>￥</i>'+total.toFixed(2));
-		$('.wzf .orange').html('<span class="colorbbb">需要支付&nbsp;</span><b>￥</b>'+total.toFixed(2));
+//		$('.gray9 .orange').html('<i>￥</i>'+total.toFixed(2));
+//		$('.wzf .orange').html('<span class="colorbbb">需要支付&nbsp;</span><b>￥</b>'+total.toFixed(2));
 
 		// 判断选择余额支付还是潮购值支付
 		var chaomoney =parseInt($('.other_pay .chaomoney span.gray9 em').text())/100;
