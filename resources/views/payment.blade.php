@@ -37,7 +37,7 @@
         </div>
 
 
-@if($addressInfo->address_id!='')
+
         <div style="border:solid yellow 1px">
             <table border="0">
                 <tr>
@@ -53,10 +53,7 @@
             </table>
         </div>
         <font font-size="18px" color="red"><a href="{{url('address/addre')}}">编辑</a></font>
-    @else
-        <a href="{{url('address/addre')}}"><b style="font-size:50px;color:red" >请选择您的收货地址</b></a>
 
-    @endif
 
 
 
