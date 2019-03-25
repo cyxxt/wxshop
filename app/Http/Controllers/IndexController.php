@@ -292,7 +292,7 @@ class IndexController extends Controller
             'user_id'=>$user_id,
             'is_default'=>1
         ];
-        $addressInfo=Address::where($addWhere)->first();
+        $addressInfo=Address::where($addWhere)->get();
 
         return view('payment',['goodsInfo'=>$goodsInfo,'price'=>$price,'addressInfo'=>$addressInfo]);
     }

@@ -45,11 +45,13 @@
                     <td class="p_td" width="300">手机</td>
                     <td class="p_td" width="395">收货地址</td>
                 </tr>
+                @foreach($addressInfo as $v)
                 <tr>
-                    <td>{{$addressInfo->address_name}}</td>
-                    <td>{{$addressInfo->address_tel}}</td>
-                    <td>{{$addressInfo->address_detail}}</td>
+                    <td>{{$v->address_name}}</td>
+                    <td>{{$v->address_tel}}</td>
+                    <td>{{$v->address_detail}}</td>
                 </tr>
+                    @endforeach
             </table>
         </div>
         <font font-size="18px" color="red"><a href="{{url('address/addre')}}">编辑</a></font>
