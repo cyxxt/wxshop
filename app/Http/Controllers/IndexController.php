@@ -7,6 +7,7 @@ use App\Model\Goods;
 use App\Model\Category;
 use Illuminate\Support\Facades\DB;
 use App\Model\Cart;
+use App\Model\Address;
 class IndexController extends Controller
 {
     //首页
@@ -21,6 +22,11 @@ class IndexController extends Controller
     //潮购
     public function userpage(){
         return view('userpage');
+    }
+    //潮购
+    public function userpages(){
+
+        return view('userpages');
     }
     //所有商品
     public function allshops(Request $request)
@@ -66,6 +72,7 @@ class IndexController extends Controller
         }
         return view('div',['goodsInfo'=>$goodsInfo,'topInfo'=>$topInfo]);
     }
+//    首页跳的所有商品页面
     public function allshopsdoo(Request $request)
     {
         $cate_id=$request->input('cate_id');
@@ -263,11 +270,12 @@ class IndexController extends Controller
 
     }
 
-    //支付
+    //支付页面
     public function payment()
     {
         $goods_id=session('goods_id');
 //        echo $goods_id;die;
+        $user_id=session('user_id');
         $goods_id=explode(',',$goods_id);
 //        print_r($goods_id);die;
 //        $where=[
@@ -280,14 +288,35 @@ class IndexController extends Controller
         foreach($goodsInfo as $v){
             $price+=$v['buy_number']*$v['self_price'];
         }
+        $addWhere=[
+            'user_id'=>$user_id,
+            'is_default'=>1
+        ];
+        $addressInfo=Address::where($addWhere)->first();
 
-        return view('payment',['goodsInfo'=>$goodsInfo,'price'=>$price]);
+        return view('payment',['goodsInfo'=>$goodsInfo,'price'=>$price,'addressInfo'=>$addressInfo]);
     }
-
+//点击结算存session
     public function paymentdo(Request $request)
     {
         $goods_id=$request->goods_id;
         session(['goods_id'=>$goods_id]);
 //        echo $goods_id;
+    }
+
+    //支付成功页面
+    public function paysuccess()
+    {
+        return view('paysuccess');
+    }
+    ////潮购记录
+    public function recorddetail()
+    {
+        return view('recorddetail');
+    }
+    //我的钱包
+    public function mywallet()
+    {
+        return view('mywallet');
     }
 }

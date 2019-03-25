@@ -16,12 +16,13 @@ class LoginController extends Controller
     {
         return view('register');
     }
+    //只有输入手机号的注册页面
     public function registers()
     {
         return view('registers');
     }
 
-    //
+    //上个方法跳的页面
     public function regauth(Request $request)
     {
         $tel=session('tel');
@@ -37,6 +38,7 @@ class LoginController extends Controller
     {
         return view('setpwd');
     }
+//regauth点击确认跳的页面
     public function regauthdo(Request $request)
     {
         $tel=$request->tel;
@@ -84,7 +86,7 @@ class LoginController extends Controller
 
 
     }
-
+//发送验证码
     public function codedo(Request $request)
     {
         $tel=session('tel');
@@ -132,7 +134,7 @@ class LoginController extends Controller
         }
     }
     
-    //
+    //发送验证码
 //    public function sendMobile($mobile)
 //    {
 //        $host = env('MOBILE_HOST');

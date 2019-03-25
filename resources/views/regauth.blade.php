@@ -36,10 +36,7 @@
                         <input type="text" id="userMobile" placeholder="请输入验证码" value=""/>
                         <a href="javascript:void(0);" class="sendcode" id="btn">获取验证码</a>
                     </li>
-                    <li>
-                        <input id="verifycode" type="text" placeholder="请输入验证码"   maxlength="4" /><b></b>
-                        <input type="button" value="获取验证码" id="but">
-                    </li>
+
                     <li><a id="findPasswordNextBtn" href="javascript:void(0);" class="orangeBtn">确认</a></li>
                     <li>换了手机号码或遗失？请致电客服解除绑定400-666-2110</li>
                 </ul>

@@ -17,15 +17,22 @@
 
     </form> -->
     <form class="layui-form" action="">
+        <input type="hidden" id="address_id" value="{{$arr->address_id}}">
         <div class="addrcon">
             <ul>
-                <li><em>收货人</em><input type="text"  id="uname" placeholder="请填写真实姓名"></li>
-                <li><em>手机号码</em><input type="number" id="tel" name placeholder="请输入手机号"></li>
-                <li><em>所在区域</em><input id="demo1" type="text" name="input_area" placeholder="请选择所在区域">
+                <li><em>收货人</em><input type="text" value="{{$arr->address_name}}"  id="uname" placeholder="请填写真实姓名"></li>
+                <li><em>手机号码</em><input type="number" value="{{$arr->address_tel}}" id="tel" name placeholder="请输入手机号"></li>
+                <li><em>所在区域</em><input id="demo1" value="{{$arr->address_szqy}}" type="text" name="input_area" placeholder="请选择所在区域">
                 </li>
-                <li class="addr-detail"><em>详细地址</em><input type="text" id="addsc" placeholder="20个字以内" class="addr"></li>
+                <li class="addr-detail"><em>详细地址</em><input type="text" value="{{$arr->address_detail}}" id="addsc" placeholder="20个字以内" class="addr"></li>
             </ul>
-            <div class="setnormal"><span>设为默认地址</span><input type="checkbox" id="default" name="xxx" lay-skin="switch">  </div>
+            <div class="setnormal"><span>设为默认地址</span>
+                @if($arr->is_default==1)
+                <input type="checkbox"  id="default" name="xxx" lay-skin="switch" checked>
+                @else
+                    <input type="checkbox"  id="default" name="xxx" lay-skin="switch">
+                @endif
+            </div>
         </div>
     </form>
 </div>
@@ -69,6 +76,7 @@
                 var demo=$("#demo1").val();
                 var addsc=$("#addsc").val();
                 var _default=$("#default").prop('checked');
+                var address_id=$("#address_id").val();
 //                console.log(_default);
                 var is_default='';
                 if(_default){
@@ -92,10 +100,10 @@
                     return false;
                 }
                 $.post(
-                        'adddo',
-                        {uname:uname,tel:tel,demo:demo,addsc:addsc,_token:$("[name='_token']").val(),is_default:is_default},
+                        'editdo',
+                        {address_id:address_id,address_name:uname,address_tel:tel,address_szqy:demo,address_detail:addsc,_token:$("[name='_token']").val(),is_default:is_default},
                         function(res){
-//                            console.log(res);
+                            console.log(res);
                             if(res==1){
                                 layer.msg('保存成功');
                                 location.href="addre";

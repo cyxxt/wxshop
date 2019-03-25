@@ -35,7 +35,33 @@
             </div>
             <p class="gray9">总需支付金额：<em class="orange"><i>￥</i>{{$price}}</em></p>
         </div>
+
+
+@if($addressInfo->address_id!='')
+        <div style="border:solid yellow 1px">
+            <table border="0">
+                <tr>
+                    <td class="p_td" width="200">收货人姓名</td>
+                    <td class="p_td" width="300">手机</td>
+                    <td class="p_td" width="395">收货地址</td>
+                </tr>
+                <tr>
+                    <td>{{$addressInfo->address_name}}</td>
+                    <td>{{$addressInfo->address_tel}}</td>
+                    <td>{{$addressInfo->address_detail}}</td>
+                </tr>
+            </table>
+        </div>
+        <font font-size="18px" color="red"><a href="{{url('address/addre')}}">编辑</a></font>
+    @else
         <a href="{{url('address/addre')}}"><b style="font-size:50px;color:red" >请选择您的收货地址</b></a>
+
+    @endif
+
+
+
+
+
         <div class="other_pay marginB">
             
             <a href="javascript:;" class="method chaomoney">
@@ -219,6 +245,10 @@
             title: false,
             content: $('.paywrapp')
         })
+    })
+
+    $("#subbtn").click(function(){
+        location.href="paysuccess";
     })
         
 </script>
