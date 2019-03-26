@@ -8,6 +8,7 @@ use App\Model\Category;
 use Illuminate\Support\Facades\DB;
 use App\Model\Cart;
 use App\Model\Address;
+use Memcache;
 class IndexController extends Controller
 {
     //首页
