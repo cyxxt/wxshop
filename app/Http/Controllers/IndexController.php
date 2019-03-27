@@ -9,10 +9,12 @@ use Illuminate\Support\Facades\DB;
 use App\Model\Cart;
 use App\Model\Address;
 use Memcache;
+use Redis;
 class IndexController extends Controller
 {
     //首页
     public function index(Request $request){
+
 //        $arr=DB::table('goods')->get();
         $arr=Goods::orderBy('goods_id','desc')
             -> take(2)->get();
@@ -26,7 +28,6 @@ class IndexController extends Controller
     }
     //潮购
     public function userpages(){
-
         return view('userpages');
     }
     //所有商品
@@ -77,7 +78,7 @@ class IndexController extends Controller
     public function allshopsdoo(Request $request)
     {
         $cate_id=$request->input('cate_id');
-//        echo $cate_id;die;
+//        echo $cate_id;
         $topInfo=Category::where('pid',0)->get();
         $type=$request->type;
 //        echo $cate_id;
@@ -100,12 +101,10 @@ class IndexController extends Controller
                 }
             }
         }else{
-            if(empty($type)){
-                $goodsInfo=$this->getcate1($cate_id);
-            }
+            $goodsInfo=$this->getcate1($cate_id);
 
         }
-        return view('div1',['goodsInfo'=>$goodsInfo,'topInfo'=>$topInfo]);
+        return view('div1',['goodsInfo'=>$goodsInfo,'topInfo'=>$topInfo,'cate_id'=>$cate_id]);
     }
 //根据id获取商品数据
     public function getcate1($cate_id)
@@ -117,6 +116,7 @@ class IndexController extends Controller
 //            print_r($cate_id);
         $goodsInfo=[];
         foreach($cate_id as $v){
+//            echo $v;die;
             $data=Goods::where('cate_id','=',$v)->first();
             if(!empty($data)){
                 $goodsInfo[]=$data;
@@ -237,17 +237,35 @@ class IndexController extends Controller
         $price=$request->price;
 //        echo $price;
         $goods_id=$request->goods_id;
-//        echo $goods_id;
+//        echo $goods_id;die;
         $user_id=session('user_id');
+        //该商品的库存
+        $goods_num=$request->goods_num;
+//        //数据库购买的数量
+//        $cart_num=Cart::where('goods_id',$goods_id)->value('buy_number');
+////        echo $cart_num;die;
+//        //
+//     $num=$goods_num-($price+$cart_num);
+//        $bnum=$goods_num-$cart_num;
+////        echo $num;
+//        $anum=$price+$cart_num;
+//        echo $anum;
+        if($price>$goods_num){
+            $data=[
+                'buy_number'=>$goods_num
+            ];
+        }else{
+            $data=[
+                'buy_number'=>$price
+            ];
+        }
         $where=[
             'goods_id'=>$goods_id,
             'user_id'=>$user_id
         ];
-        $data=[
-            'buy_number'=>$price
-        ];
+
         Cart::where($where)->update($data);
-    }
+        }
 
     //删除全部
     public function delall(Request $request)
@@ -272,28 +290,44 @@ class IndexController extends Controller
     }
 
     //支付页面
-    public function payment()
+    public function payment(Request $request)
     {
         $goods_id=session('goods_id');
-//        echo $goods_id;die;
+        $goods_id1=$request->input('goods_id1');
         $user_id=session('user_id');
-        $goods_id=explode(',',$goods_id);
+        if(!empty($goods_id1)){
+//            echo $goods_id;
+//            echo $goods_id1;die;
+
 //        print_r($goods_id);die;
-//        $where=[
-//            'cart.goods_id'=>['in',$goods_id]
-//        ];
-//        print_r($where);die;
-        $goodsInfo=Cart::join('goods','goods.goods_id','=','cart.goods_id')->whereIn('cart.goods_id',$goods_id)->get();
+            $goodsInfo=Goods::where('goods_id',$goods_id1)->get();
 //        print_r($goodsInfo);die;
-        $price=0;
-        foreach($goodsInfo as $v){
-            $price+=$v['buy_number']*$v['self_price'];
+            $price=0;
+            foreach($goodsInfo as $v){
+                $price+=$v['self_price'];
+            }
+            $addWhere=[
+                'user_id'=>$user_id,
+                'is_default'=>1
+            ];
+            $addressInfo=Address::where($addWhere)->get();
+        }else{
+            $goods_id=explode(',',$goods_id);
+//        print_r($goods_id);die;
+            $goodsInfo=Cart::join('goods','goods.goods_id','=','cart.goods_id')->whereIn('cart.goods_id',$goods_id)->get();
+//        print_r($goodsInfo);die;
+            $price=0;
+            foreach($goodsInfo as $v){
+                $price+=$v['buy_number']*$v['self_price'];
+            }
+            $addWhere=[
+                'user_id'=>$user_id,
+                'is_default'=>1
+            ];
+            $addressInfo=Address::where($addWhere)->get();
+//
         }
-        $addWhere=[
-            'user_id'=>$user_id,
-            'is_default'=>1
-        ];
-        $addressInfo=Address::where($addWhere)->get();
+
 
         return view('payment',['goodsInfo'=>$goodsInfo,'price'=>$price,'addressInfo'=>$addressInfo]);
     }
@@ -301,7 +335,12 @@ class IndexController extends Controller
     public function paymentdo(Request $request)
     {
         $goods_id=$request->goods_id;
-        session(['goods_id'=>$goods_id]);
+        if(empty($goods_id)){
+            echo 1;
+        }else{
+            session(['goods_id'=>$goods_id]);
+        }
+
 //        echo $goods_id;
     }
 

@@ -37,7 +37,7 @@
                         <a href="javascript:void(0);" class="sendcode" id="btn">获取验证码</a>
                     </li>
 
-                    <li><a id="findPasswordNextBtn" href="javascript:void(0);" class="orangeBtn">确认</a></li>
+                    <li><a id="findPasswordNextBtn" href="javascript:;" class="orangeBtn">确认</a></li>
                     <li>换了手机号码或遗失？请致电客服解除绑定400-666-2110</li>
                 </ul>
             </div>
@@ -103,16 +103,32 @@ layui.use('form', function(){
             }
         })
 
-        $("#findPasswordNextBtn").click(function(){
-            var code=$("#verifycode").val();
-            $.post(
-                    'registerdo',
-                    {_token:$("[name='_token']").val(),code:code},
-                    function(res){
-//                        console.log(res);
+//        $("#findPasswordNextBtn").click(function(){
+//            var code=$("#verifycode").val();
+//            $.post(
+//                    'registerdo',
+//                    {_token:$("[name='_token']").val(),code:code},
+//                    function(res){
+////                        console.log(res);
+//                    }
+//            )
+//        })
 
-                    }
-            )
+        $("#findPasswordNextBtn").click(function(){
+            var code=$("#userMobile").val();
+            console.log(code);
+            if(code==''){
+                layer.msg('验证码不能为空');
+                return false;
+            }
+            if(code!=1111){
+                layer.msg('验证码错误');
+                return false;
+            }
+            else{
+                location.href="{{url('login/setpwd')}}";
+            }
+
         })
     })
 

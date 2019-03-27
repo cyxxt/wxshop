@@ -1,8 +1,8 @@
 ﻿@extends('must')
 
-<link href="css/comm.css" rel="stylesheet" type="text/css" />
-<link href="css/member.css" rel="stylesheet" type="text/css" />
-<script src="js/jquery190_1.js" language="javascript" type="text/javascript"></script>
+<link href="{{url('css/comm.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{url('css/member.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{url('js/jquery190_1.js')}}" language="javascript" type="text/javascript"></script>
 @section('content')
     <body class="g-acc-bg">
 
@@ -13,7 +13,7 @@
     </div>
 
     <div class="welcome">
-        <a href=""><i class="set" ></i></a>
+        <a href="{{url('')}}"><i class="set"></i></a>
         <div class="login-img clearfix">
             <ul>
                 <li><img src="images/goods2.jpg" alt=""></li>

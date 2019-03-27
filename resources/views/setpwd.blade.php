@@ -103,13 +103,14 @@
 
         $("#findPasswordNextBtn").click(function(){
             var pwd=$("#pwd").val();
+//            console.log(pwd);
             var pwds=$("#verifcode").val();
 
             $.post(
                     'registerdo',
                     {pwd:pwd,pwds:pwds,_token:$("[name='_token']").val()},
                     function(res){
-//                        console.log(res);
+                        console.log(res);
                         if(res==1){
                             layer.msg('注册成功');
                             location.href="login";

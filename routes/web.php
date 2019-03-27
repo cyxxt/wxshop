@@ -76,3 +76,9 @@ Route::prefix('address')->group(function(){
     route::get('addressedit','address\AddressController@addressedit');
     route::post('editdo','address\AddressController@editdo');
 });
+
+//支付
+Route::prefix('alipay')->group(function(){
+    route::get('mobilepay','AlipayController@mobilepay');
+
+});

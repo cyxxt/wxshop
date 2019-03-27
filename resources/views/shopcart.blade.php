@@ -3,6 +3,7 @@
     <link href="{{url('css/cartlist.css')}}" rel="stylesheet" type="text/css" />
 @section('content')
     @csrf
+
     <body id="loadingPicBlock" class="g-acc-bg">
     <input name="hidUserID" type="hidden" id="hidUserID" value="-1" />
     <div>
@@ -15,19 +16,20 @@
         <div class="g-Cart-list">
             <ul id="cartBody">
                 @foreach($goodsInfo as $v)
-                    <li goods_id="{{$v->goods_id}}">
+                    <li goods_id="{{$v->goods_id}}" goods_num="{{$v->goods_num}}">
                         <s class="xuan"></s>
                         <a class="fl u-Cart-img" href="/v44/product/12501977.do">
                             <img src="/goodsimg/{{$v->goods_img}}" border="0" alt="">
                         </a>
                         <div class="u-Cart-r">
                             <a href="/v44/product/12501977.do" class="gray6" self_price="{{$v->self_price}}">(已更新至第338潮){{$v->goods_name}}</a>
+                            单价<a>{{$v->self_price}}</a>
                         <span class="gray9">
                             <em>剩余124人次</em>
                         </span>
                             <div class="num-opt">
                                 <em class="num-mius dis min"><i></i></em>
-                                <input class="text_box" name="num" maxlength="6" type="text" self_price="{{$v->self_price}}" value="{{$v->buy_number}}" codeid="12501977">
+                                <input class="text_box" name="num" maxlength="6" id="change" type="text" self_price="{{$v->self_price}}" value="{{$v->buy_number}}" codeid="12501977">
                                 <em class="num-add add"><i></i></em>
                             </div>
                             <a href="javascript:;" name="delLink" cid="12501977" goods_id="{{$v->goods_id}}" isover="0" class="z-del"><s></s></a>
@@ -100,12 +102,15 @@
     </body>
     @endsection
 
-
+<script src="{{url('layui/layui.js')}}"></script>
     <script src="{{url('js/jquery-1.11.2.min.js')}}"></script>
     <!---商品加减算总数---->
     @section('my-js')
+
         $(function () {
             $(".add").click(function () {
+        var goods_num=$(this).parents('li').attr('goods_num');
+        console.log(goods_num);
                 var t = $(this).prev();
                 t.val(parseInt(t.val()) + 1);
                 var price=t.val();
@@ -120,7 +125,44 @@
                     )
                 GetCount();
             })
+
+        {{--//内容改变--}}
+
+        $("#change").blur(function () {
+        {{--文本框的值--}}
+        var price = parseInt($(this).val());
+
+        var goods_num=$(this).parents('li').attr('goods_num');
+        {{--console.log(goods_num);--}}
+        if(price>goods_num){
+            layer.msg('抱歉，该商品库存不足，');
+        var bnum=goods_num-price;
+        if(bnum<1){
+            console.log(bnum);
+            $(this).val(goods_num);
+        }
+
+        }
+
+        {{--console.log(bnum);--}}
+        {{--console.log(price);--}}
+        var goods_id=$(this).parents('li').attr('goods_id');
+        {{--console.log(goods_id);--}}
+        $.post(
+        'jia',
+        {price:price,goods_id:goods_id,_token:$("[name='_token']").val(),goods_num:goods_num},
+        function(res){
+        {{--console.log(res);--}}
+
+        }
+        )
+        GetCount();
+        })
+
+
+        {{--减--}}
             $(".min").click(function () {
+
                 var t = $(this).next();
                 if(t.val()>1){
                     t.val(parseInt(t.val()) - 1);
@@ -272,6 +314,10 @@
                     'paymentdo',
                     {goods_id:goods_id,_token:$("[name='_token']").val()},
                     function(res){
+                        if(res==1){
+                            layer.msg('亲，您还未选择商品哦');
+                            return false;
+                        }
                         location.href="payment"
                     }
             )

@@ -56,11 +56,18 @@
 
                 <div class="menu-list-wrapper" id="divSortList">
                     <ul id="sortListUl" class="list">
-                        <li sortid='0' class='current'><span class='items' >全部商品</span></li>
+                        <li sortid='0' ><span class='items' >全部商品</span></li>
                         @foreach($topInfo as $v)
-                            <li sortid='100' reletype='1' linkaddr='' >
-                                <span class='items' id="{{$v->cate_id}}">{{$v->cate_name}}</span>
-                            </li>
+                            @if($cate_id==$v->cate_id)
+                                <li sortid='100' reletype='1' linkaddr='' class="current">
+                                    <span class='items' id="{{$v->cate_id}}">{{$v->cate_name}}</span>
+                                </li>
+                            @else
+                                <li sortid='100' reletype='1' linkaddr='' >
+                                    <span class='items' id="{{$v->cate_id}}">{{$v->cate_name}}</span>
+                                </li>
+                            @endif
+
                         @endforeach
                     </ul>
                 </div>

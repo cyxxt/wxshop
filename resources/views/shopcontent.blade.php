@@ -113,42 +113,7 @@
                                     <span>16人次</span><s class="fr"></s>
                                 </div>
                             </div>
-                            <div class="ann_list">
-                                <div class="fl">
-                                    <img src="images/goods2.jpg" alt="">
-                                </div>
-                                <div class="fl">
-                                    <h3>被小冉</h3>
-                                    <p>2017-06-25 15:38:12:645</p>
-                                </div>
-                                <div class="fr people-num">
-                                    <span>16人次</span><s class="fr"></s>
-                                </div>
-                            </div>
-                            <div class="ann_list">
-                                <div class="fl">
-                                    <img src="images/goods2.jpg" alt="">
-                                </div>
-                                <div class="fl">
-                                    <h3>被小冉</h3>
-                                    <p>2017-06-25 15:38:12:645</p>
-                                </div>
-                                <div class="fr people-num">
-                                    <span>16人次</span><s class="fr"></s>
-                                </div>
-                            </div>
-                            <div class="ann_list">
-                                <div class="fl">
-                                    <img src="images/goods2.jpg" alt="">
-                                </div>
-                                <div class="fl">
-                                    <h3>被小冉</h3>
-                                    <p>2017-06-25 15:38:12:645</p>
-                                </div>
-                                <div class="fr people-num">
-                                    <span>16人次</span><s class="fr"></s>
-                                </div>
-                            </div>
+
                         </div>
                         <!-- 无内容时显示 -->
                         <div class="nocontent" style="display: none">
@@ -208,7 +173,7 @@
 
             <div class="pro_foot">
                 <a href="" class="">第10364潮正在进行中<span class="dotting"></span></a>
-                <a href="" class="shopping">立即参与</a>
+                <a href="{{url('payment')}}?goods_id1={{$arr->goods_id}}" class="shopping">立即参与</a>
                 <span href="" class="fr"><i><b num="1">1</b></i></span>
             </div>
         </div>
