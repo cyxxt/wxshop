@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default' => env('CACHE_DRIVER', 'file'),
+    'default' => env('CACHE_DRIVER', 'memcache'),
 
     /*
     |--------------------------------------------------------------------------
@@ -73,6 +73,13 @@ return [
         'redis' => [
             'driver' => 'redis',
             'connection' => 'cache',
+        ],
+        'memcache' => [
+            [
+                'host' => '127.0.0.1',
+                'port' => 11211,
+                'weight' => 100
+            ],
         ],
 
     ],

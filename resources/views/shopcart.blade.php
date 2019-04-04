@@ -67,7 +67,7 @@
                                 <img src="/goodsimg/{{$v->goods_img}}" width="136" height="136">
                             </a>
                             <p class="g-name">
-                                <a href="https://m.1yyg.com/v44/products/23458.do">(第<i>368671</i>潮)苹果（Apple）iPhone 7 Plus 128G版 4G手机</a>
+                                <a href="https://m.1yyg.com/v44/products/23458.do">(第<i>368671</i>潮){{$v->goods_name}}</a>
                             </p>
                             <ins class="gray9">价值:￥{{$v->self_price}}</ins>
                             <div class="btn-wrap">
@@ -79,7 +79,7 @@
                                     </p>
                                 </div>
                                 <div class="gRate" data-productid="23458">
-                                    <a href="javascript:;"><s></s></a>
+                                    <a href="javascript:;" goods_id="{{$v->goods_id}}" class="cart"><s></s></a>
                                 </div>
                             </div>
                         </li>
@@ -319,6 +319,26 @@
                             return false;
                         }
                         location.href="payment"
+                    }
+            )
+        })
+
+
+        $(document).on('click','.cart',function(){
+            var  _this=$(this);
+            var goods_id=_this.attr('goods_id');
+//            console.log(goods_id);
+            $.post(
+                    'cart',
+                    {goods_id:goods_id,_token:$("[name='_token']").val()},
+                    function(res){
+                        console.log(res);
+                        if(res==3){
+                            location.href="{{'login/login'}}"
+                        }else{
+                            layer.msg('添加成功');
+                            window.location.reload();
+                        }
                     }
             )
         })

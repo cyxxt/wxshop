@@ -82,3 +82,17 @@ Route::prefix('alipay')->group(function(){
     route::get('mobilepay','AlipayController@mobilepay');
 
 });
+Route::any('goods','IndexController@goods');
+Route::post('logindo','IndexController@logindo');
+Route::get('pw','IndexController@pw');
+Route::post('pwdo','IndexController@pwdo');
+
+
+Route::prefix('user')->group(function(){
+   route::get('registers','user\RegisterController@register');
+    route::post('registerdo','user\RegisterController@registerdo');
+    route::get('login','user\RegisterController@login');
+    route::post('logindo','user\RegisterController@logindo');
+    route::get('list','user\RegisterController@lists');
+    route::post('codedo','user\RegisterController@codedo');
+});

@@ -2,7 +2,6 @@
 
 <link href="{{url('css/comm.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{url('css/member.css')}}" rel="stylesheet" type="text/css" />
-<script src="{{url('js/jquery190_1.js')}}" language="javascript" type="text/javascript"></script>
 @section('content')
     <body class="g-acc-bg">
 

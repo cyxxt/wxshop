@@ -85,7 +85,7 @@
             <div class="paylip">我们提倡理性消费</div>
         </div>
         <div class="g-Total-bt">
-            <dd><a id="btnPay" href="javascript:;" class="orangeBtn fr w_account">立即支付</a></dd>
+            <dd><a id="btnPay" address_id="{{$v->address_}}" href="javascript:;" class="orangeBtn fr w_account">立即支付</a></dd>
         </div> 
 
 
@@ -243,7 +243,12 @@
             type: 1,
             title: false,
             content: $('.paywrapp')
-        })
+        });
+        var address_id=$(this).attr('address_id');
+        if(address_id==''){
+            layer.msg('亲亲您好，您还没选收货地址哦');
+            return false;
+        }
     })
 
     $("#subbtn").click(function(){

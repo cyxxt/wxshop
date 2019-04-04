@@ -8,8 +8,10 @@ use App\Model\Category;
 use Illuminate\Support\Facades\DB;
 use App\Model\Cart;
 use App\Model\Address;
-use Memcache;
-use Redis;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
+use App\Model\User;
+
 class IndexController extends Controller
 {
     //首页
@@ -146,8 +148,6 @@ class IndexController extends Controller
 //        print_r($arr);
         return view('shopcontent',['arr'=>$arr]);
     }
-
-
 
 //获取分类id
     public function getSonCateId($cateInfo,$pid){
@@ -359,4 +359,85 @@ class IndexController extends Controller
     {
         return view('mywallet');
     }
+
+    public function goods(Request $request)
+    {
+        $search=$request->input('search');
+        $page=$request->page;
+        $key=$search.$page;
+//        Cache::flush();die;
+//        if (Cache::has($key)) {
+//            $info=Cache::get($key);
+//            echo 'cache';
+//        }else{
+//            $info=Goods::where('goods_name','like',"%$search%")->paginate(5);
+//            Cache::put($key,$info,100);
+//            echo 'DB';
+//        }
+//        if(Redis::exists('info')){
+//            $info=unserialize(Redis::get('info'));
+//            echo "cache";
+//        }else{
+//            $info=Goods::where('goods_name','like',"%$search%")->paginate(5);
+//            Redis::set('info',serialize($info));
+//            Redis::expire('info',100);
+//            echo "db";
+//        }
+//
+
+//
+//        return view('goods',['info'=>$info,'search'=>$search]);
+        return view('goods');
+        }
+
+    public function logindo(Request $request)
+    {
+
+        $uname=$request->uname;
+//        echo $uname;
+        $pwd=$request->pwd;
+//        echo $pwd;
+//        Cache::flush();die;
+        if(Cache::has('arr')){
+            $arr=Cache::get('arr');
+//            print_r($arr);
+
+        }else{
+            $arr=User::where('user_tel',$uname)->first();
+            $pwd1=decrypt($arr['user_pwd']);
+            if(!empty($arr)){
+                if($pwd==$pwd1){
+                    Cache::put('arr',$arr,100);
+                    echo "登录成功";
+                }else {
+                    echo "密码错误";die;
+                }
+            }else{
+                echo "账号错误";die;
+            }
+        }
+
+
+    }
+
+    public function pw()
+    {
+        return view('pwd');
+    }
+
+    public function pwdo(Request $request)
+    {
+        $pwd1=$request->pwd1;
+        $pwd2=$request->pwd2;
+        $pwd3=$request->pwd3;
+        $arr=Cache::get('arr');
+       print_r($arr);die;
+        $pwd4=decrypt($arr['user_pwd']);
+        if($pwd4!=$pwd3){
+            echo "您好，您输入的旧密码不对";die;
+        }else{
+
+        }
+    }
+
 }
