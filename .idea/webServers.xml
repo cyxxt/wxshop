@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="568776b5-a302-4e82-a29e-e343bdfc803a" name="myshop" url="http://120.79.197.85">
-        <fileTransfer host="120.79.197.85" port="22" rootFolder="/data/wwwroot/default/" accessType="SFTP" username="root">
+        <fileTransfer host="120.79.197.85" port="22" rootFolder="/data/wwwroot/default/" accessType="SFTP" password="dfcbdfcedfc7dfc3dfc4df9bdf98df99df84" username="root">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" />
           </advancedOptions>
