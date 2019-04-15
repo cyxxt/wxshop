@@ -116,3 +116,8 @@ Route::prefix('admin')->group(function(){
     route::get('menulist','admin\\UserController@menulist');
     route::post('getmenu','admin\\UserController@getmenu');
 });
+
+Route::prefix('exam')->group(function(){
+    route::any('check','exam\\ExamController@check');
+    route::get('menu','exam\\ExamController@menu');
+});
