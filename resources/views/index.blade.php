@@ -3,6 +3,7 @@
 @section('content')
 	@csrf
 	<body fnav="1" class="g-acc-bg">
+	111111111
 	<div class="marginB" id="loadingPicBlock">
 		<!--首页头部-->
 		<div class="m-block-header" style="display: none">
