@@ -28,7 +28,7 @@ class ExamController extends Controller
         $postStr = file_get_contents("php://input");
         echo $postStr;die;
         $postObj=simplexml_load_string($postStr,'SimpleXMLElement',LIBXML_NOCDATA);
-//        dd($postObj);
+//        dd($postObj);b
         $fromUsername=$postObj['FromUserName'];
         $toUsername=$postObj['ToUserName'];
         $time=time();

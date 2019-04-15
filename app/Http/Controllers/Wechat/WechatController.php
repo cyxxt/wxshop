@@ -182,15 +182,15 @@ class WechatController extends Controller
     public function responseMsg($signature,$timestamp,$nonce)
     {
 
-        $token    =env('WEIXINTOKEN');
-        $arr=array($token,$timestamp,$nonce);
-        sort($arr);
-        $arrStr=implode($arr);
-        $sign=sha1($arrStr);
-        if($sign==$signature){
-            return true;
-        }else{
-            return false;
+            $token    =env('WEIXINTOKEN');
+            $arr=array($token,$timestamp,$nonce);
+            sort($arr);
+            $arrStr=implode($arr);
+            $sign=sha1($arrStr);
+            if($sign==$signature){
+                return true;
+            }else{
+                return false;
         }
     }
 }
