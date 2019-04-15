@@ -96,3 +96,23 @@ Route::prefix('user')->group(function(){
     route::get('list','user\RegisterController@lists');
     route::post('codedo','user\RegisterController@codedo');
 });
+
+
+Route::any('check','Wechat\\WechatController@check');
+
+route::post('updo',"Wechat\\MaterialController@updo");
+route::get('material',"Wechat\\MaterialController@material");
+
+//后台
+Route::prefix('admin')->group(function(){
+    route::get('index','admin\\UserController@index');
+    route::get('event','admin\\UserController@event');
+    route::get('type','admin\\UserController@type');
+    route::post('doadd','admin\\UserController@doadd');
+    route::post('typedo','admin\\UserController@typedo');
+    route::get('menu','admin\\UserController@menu');
+    route::post('menudo','admin\\UserController@menudo');
+    route::any('getMenuList','admin\\UserController@getMenuList');
+    route::get('menulist','admin\\UserController@menulist');
+    route::post('getmenu','admin\\UserController@getmenu');
+});
