@@ -173,4 +173,48 @@ class UserController extends Controller
         return json_encode($arr);
     }
 
+    public function preson()
+    {
+        $token=Weixin::gettoken();
+        $url="https://api.weixin.qq.com/cgi-bin/menu/addconditional?access_token=$token";
+        $data=[
+            'button'=>[
+                [
+                    'type'=>'click',
+                    'name'=>"我是男生",
+                    "key"=>"V1001_TODAY_MUSIC"
+                ],
+                [
+                    'name'=>'菜单',
+                    'sub_button'=>[
+                        [
+                            "type"=>"view",
+                            "name"=>"搜索",
+                            "url"=>"http://www.soso.com/"
+                        ] ,
+                        [
+                            "type"=>"miniprogram",
+                            "name"=>"wxa",
+                            "url"=>"http://mp.weixin.qq.com",
+                            "appid"=>"wx286b93c14bbf93aa",
+                            "pagepath"=>"pages/lunar/index"
+                        ],
+                        [
+                            "type"=>"click",
+                            "name"=>"赞一下我们",
+                            "key"=>"V1001_GOOD"
+                        ]
+                    ]
+                ]
+            ],
+            "matchrule"=>[
+                "sex"=>"1",
+            ]
+        ];
+//        print_r($data);
+        $data=json_encode($data,JSON_UNESCAPED_UNICODE);
+        $res=Weixin::HttpsPost($url,$data);
+        echo $res;
+    }
+
 }

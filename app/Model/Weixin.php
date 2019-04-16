@@ -180,7 +180,31 @@ class Weixin
         echo $result;
 
     }
-   
+
+    public static function setAllUser()
+    {
+        $token=self::gettoken();
+        $url='https://api.weixin.qq.com/cgi-bin/user/get?access_token='.$token;
+//        echo $url;
+        $str=file_get_contents($url);
+        $arr=json_decode($str,true);
+        return $arr['data']['openid'];
+    }
+
+    public static function tupian()
+    {
+        $token=self::gettoken();
+        $type="image";
+        $url="https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=$token&type=$type";
+        echo $url;
+    }
+
+    public static function getordernum($keyword)
+    {
+        $reg="/^订单(\\d+)$/";
+        preg_match($reg,$keyword,$res);
+        return $res[1];
+    }
 
 }
 

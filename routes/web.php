@@ -115,6 +115,12 @@ Route::prefix('admin')->group(function(){
     route::any('getMenuList','admin\\UserController@getMenuList');
     route::get('menulist','admin\\UserController@menulist');
     route::post('getmenu','admin\\UserController@getmenu');
+    route::get('setall','Admin\\GroupController@setUser');
+    route::get('preson','admin\\UserController@preson');
+    route::get('label','admin\\GroupController@label');
+    route::get('set','admin\\GroupController@set');
+    route::get('aa','admin\\GroupController@aa');
+    route::get('template','admin\\GroupController@template');
 });
 
 Route::prefix('exam')->group(function(){

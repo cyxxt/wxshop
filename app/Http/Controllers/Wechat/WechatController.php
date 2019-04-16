@@ -108,6 +108,13 @@ class WechatController extends Controller
             $result=sprintf($resurl,$fromUsername,$toUsername,$time,$msgtype,$title,$des,$picurl,$url);
             echo $result;
         }
+        if(strstr($keyword,'订单')){
+            $order=Weixin::getordernum($keyword);
+            $msgtype='text';
+            $content=$order;
+            $result=sprintf($texttpl,$fromUsername,$toUsername,$time,$msgtype,$content);
+            echo $result;die;
+        }
 //        $data=Goods::select(['goods_na me'])->get();
 //        $goods_name='';
 //        foreach($data as $v){
